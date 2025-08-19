@@ -10,5 +10,8 @@ namespace ProductAppAsync.src.interfaces
     {
         Task<List<Product>> GetProducts();
         Task<Product> CreateProduct(Product createdProduct);
+        Task<Product> GetProductById(Guid productId);
+        Task<Product> UpdateProducts(Product updatedProduct, Guid productId);
+        Task<bool> DeleteProduct(Guid productId);
     }
 }

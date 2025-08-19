@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProductAppAsync.src.config.DB;
@@ -11,9 +12,11 @@ using ProductAppAsync.src.config.DB;
 namespace ProductAppAsync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250817080028_relationships")]
+    partial class relationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,65 +78,6 @@ namespace ProductAppAsync.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("ProductAppAsync.src.models.ProfileModel", b =>
-                {
-                    b.Property<Guid>("ProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ProfileId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Profiles");
-                });
-
-            modelBuilder.Entity("ProductAppAsync.src.models.User", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<Guid>("ProfileId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("UserId");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("ProductAppAsync.src.models.Product", b =>
                 {
                     b.HasOne("ProductAppAsync.src.models.Category", "AssociatedCategory")
@@ -145,26 +89,9 @@ namespace ProductAppAsync.Migrations
                     b.Navigation("AssociatedCategory");
                 });
 
-            modelBuilder.Entity("ProductAppAsync.src.models.ProfileModel", b =>
-                {
-                    b.HasOne("ProductAppAsync.src.models.User", "User")
-                        .WithOne("profile")
-                        .HasForeignKey("ProductAppAsync.src.models.ProfileModel", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ProductAppAsync.src.models.Category", b =>
                 {
                     b.Navigation("AssociatedProducts");
-                });
-
-            modelBuilder.Entity("ProductAppAsync.src.models.User", b =>
-                {
-                    b.Navigation("profile")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -6,7 +6,9 @@ using ProductAppAsync.src.services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
-builder.Services.AddScoped<IProductService,ProductService>();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddScoped<IProductService,ProductService>()
+                .AddScoped<ICateogoryService,CategoryService>();
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>

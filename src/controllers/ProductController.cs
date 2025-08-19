@@ -34,6 +34,20 @@ namespace ProductAppAsync.src.controllers
             }
         }
 
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetProduct(Guid productId)
+        {
+            try
+            {
+                var product = await _productService.GetProductById(productId);
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateProduct(Product createdProduct)
         {
@@ -41,6 +55,34 @@ namespace ProductAppAsync.src.controllers
             {
                 var product = await _productService.CreateProduct(createdProduct);
                 return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> UpdateProduct(Product updatedProduct, Guid productId)
+        {
+            try
+            {
+                var product = await _productService.UpdateProducts(updatedProduct, productId);
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> DeleteProduct(Guid productId)
+        {
+            try
+            {
+                await _productService.DeleteProduct(productId);
+                return NoContent();
             }
             catch (Exception ex)
             {
